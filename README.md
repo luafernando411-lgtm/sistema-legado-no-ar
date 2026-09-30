@@ -100,7 +100,7 @@ Em execução local, `python run.py` usa SQLite e a pasta `uploads/`. O limite d
 
 ## Deploy na Render
 
-O arquivo `render.yaml` cria o web service Docker, um PostgreSQL e um disco persistente para os uploads. No painel da Render, use **New > Blueprint**, selecione o repositório e preencha `CENSO_LUIZ_PASSWORD` e `CENSO_JOSY_PASSWORD` quando solicitado. As chaves `SECRET_KEY` e `JWT_SECRET_KEY` são geradas pela Render.
+O arquivo `render.yaml` cria um web service Python com Gunicorn, um PostgreSQL e um disco persistente para os uploads. No painel da Render, use **New > Blueprint**, selecione o repositório e preencha `CENSO_LUIZ_PASSWORD` e `CENSO_JOSY_PASSWORD` quando solicitado. As chaves `SECRET_KEY` e `JWT_SECRET_KEY` são geradas pela Render.
 
 O banco e os uploads persistem entre deploys. Para o disco persistente, selecione um plano compatível com disk; sem ele, arquivos enviados localmente no container podem ser perdidos durante um novo deploy.
 
