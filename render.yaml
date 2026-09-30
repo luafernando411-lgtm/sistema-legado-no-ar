@@ -27,9 +27,9 @@ services:
       - key: CENSO_JOSY_EMAIL
         sync: false
       - key: CENSO_LUIZ_USERNAME
-        sync: false
+        value: luizfernandolg51@gmail.com
       - key: CENSO_JOSY_USERNAME
-        value: JOSY.PERFORME
+        sync: false
       - key: UPLOAD_FOLDER
         value: /app/uploads
       - key: CENSO_COMPLETED_PERCENT

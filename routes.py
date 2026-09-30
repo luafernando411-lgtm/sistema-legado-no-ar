@@ -116,14 +116,16 @@ def api_status():
 @bp.post("/api/auth/login")
 def login():
     b=body(); login_value=str(b.get("username") or "").strip().lower()
+    configured_users={value.strip().lower() for value in (
+        os.getenv("CENSO_LUIZ_USERNAME") or "luizarrow3",
+        os.getenv("CENSO_JOSY_USERNAME") or "josy",
+    ) if value and value.strip()}
     email_aliases={
-        str(os.getenv("CENSO_LUIZ_EMAIL") or "").strip().lower():"luizarrow3",
-        str(os.getenv("CENSO_JOSY_EMAIL") or "").strip().lower():"josy",
-        str(os.getenv("CENSO_LUIZ_USERNAME") or "").strip().lower():"luizarrow3",
-        str(os.getenv("CENSO_JOSY_USERNAME") or "").strip().lower():"josy",
+        str(os.getenv("CENSO_LUIZ_EMAIL") or "").strip().lower():os.getenv("CENSO_LUIZ_USERNAME") or "luizarrow3",
+        str(os.getenv("CENSO_JOSY_EMAIL") or "").strip().lower():os.getenv("CENSO_JOSY_USERNAME") or "josy",
     }
-    username=email_aliases.get(login_value,login_value)
-    if username not in {"luizarrow3", "josy"}:
+    username=email_aliases.get(login_value,login_value).strip().lower()
+    if username not in configured_users:
         return jsonify(error="Credenciais inválidas"),401
     ip=request.remote_addr or "unknown"
     attempt=LoginAttempt.query.filter_by(username=username,ip=ip).first()

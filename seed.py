@@ -136,13 +136,17 @@ def _ensure_completion_target():
         item.data_conclusao=item.data_cadastro or datetime.utcnow()
 
 def ensure_admin_and_seed(luiz_password, josy_password):
-    allowed = {"luizarrow3": luiz_password, "josy": josy_password}
+    luiz_username=os.getenv("CENSO_LUIZ_USERNAME") or "luizarrow3"
+    josy_username=os.getenv("CENSO_JOSY_USERNAME") or "josy"
+    allowed={username.strip().lower():password for username,password in (
+        (luiz_username,luiz_password),(josy_username,josy_password)
+    ) if username and password}
+    if not allowed:
+        raise RuntimeError("Configure ao menos uma senha inicial fora do código-fonte")
     User.query.filter(User.username.notin_(allowed)).delete(synchronize_session=False)
     for username, password in allowed.items():
         user = User.query.filter_by(username=username).first()
         if not user:
-            if not password:
-                raise RuntimeError("Configure a senha inicial dos dois usuários fora do código-fonte")
             user = User(username=username, role="admin")
             user.set_password(password)
             db.session.add(user)
