@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Josy Performe Premium — Censo Previdenciário</title>
+<meta name="theme-color" content="#174d5e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
@@ -14,7 +18,7 @@
 .login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#dce5e2,#c8d7d3 55%,#e8edeb)}.login-panel{width:min(390px,100%);background:#f7f9f8;border:1px solid #bdcac6;padding:25px;box-shadow:0 14px 40px #203c4420}.login-panel h1{font-size:19px;margin:0 0 5px}.login-panel p{color:#6d7d82;margin:0 0 20px}.login-panel label{display:block;font-weight:700;margin:12px 0 5px}.login-panel input{width:100%;height:38px;font-size:14px}.login-panel button{width:100%;height:38px;margin-top:18px;background:#174d5e;color:#fff;border:0;font-weight:700;cursor:pointer}.login-error{color:#a3433d;min-height:18px;margin-top:10px}.logout{border:1px solid #ffffff55;background:transparent;color:#fff;height:28px;padding:0 10px;cursor:pointer}.files-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}.file-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.file-actions .btn{height:28px}.breadcrumbs{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0}.breadcrumbs button{border:0;background:transparent;color:#276a68;text-decoration:underline;cursor:pointer;padding:3px}.file-name{display:flex;align-items:center;gap:8px}.file-name button{border:0;background:transparent;color:#315f68;cursor:pointer;text-align:left}.file-meta{color:#6d7d82;white-space:nowrap}@media(max-width:760px){.topbar{height:auto;min-height:43px;flex-wrap:wrap;gap:5px}.tabs{order:3;width:100%;overflow-x:auto;height:34px}.tab{white-space:nowrap;padding:0 9px}.shell{grid-template-columns:48px 1fr;min-height:calc(100vh - 82px)}.main{padding:6px}.file-actions{width:100%}}
 </style>
 <style>
-.login-screen{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#f5f4ef,#e8e4d9 55%,#f7f6f2)}.login-screen::before{content:"";position:absolute;z-index:-1;inset:0;background:url('/brand/logo.svg') center 46%/min(82vw,700px) no-repeat;opacity:.11;pointer-events:none}.login-hole{position:absolute;z-index:0;inset:0;width:100%;height:100%;pointer-events:none;opacity:.8}.login-panel{position:relative;z-index:1;border-color:#c6a45a}.login-logo{display:block;width:210px;height:190px;object-fit:contain;margin:-12px auto 4px}.login-panel button{background:#17120c;color:#f1cc6b}.login-panel button:hover{background:#382610}.sidebar{overflow-y:auto}.ibge-note{border-left:3px solid #b98a37;background:#f7f4e9;padding:9px 11px;margin:8px 0;color:#594726}
+.login-screen{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#f5f4ef,#e8e4d9 55%,#f7f6f2)}.login-screen::before{content:"";position:absolute;z-index:-1;inset:0;background:url('/brand/logo.svg') center 46%/min(82vw,700px) no-repeat;opacity:.11;pointer-events:none}.login-hole{position:absolute;z-index:0;inset:0;width:100%;height:100%;pointer-events:none;opacity:.8}.login-panel{position:relative;z-index:1;border-color:#c6a45a}.login-logo{display:block;width:210px;height:190px;object-fit:contain;margin:-12px auto 4px}.login-panel button{background:#17120c;color:#f1cc6b}.login-panel button:hover{background:#382610}.install-app{display:block!important;width:100%;height:30px;margin-top:8px!important;background:#80672c!important;color:#fff!important;border:0;cursor:pointer}.sidebar{overflow-y:auto}.ibge-note{border-left:3px solid #b98a37;background:#f7f4e9;padding:9px 11px;margin:8px 0;color:#594726}
 .api-status{display:flex;justify-content:center;align-items:center;gap:7px;min-height:20px;margin-top:8px;color:#60706a;font-size:11px}.api-status::before{content:"";width:8px;height:8px;border-radius:50%;background:#a9a69e}.api-status[data-state="ok"]::before{background:#4d9b70}.api-status[data-state="error"]::before{background:#b34c43}
 </style>
 </head>
@@ -26,7 +30,7 @@
 <h1>Censo Previdenciário</h1><p>Acesso seguro ao sistema</p>
 <label for="username">Usuário ou e-mail</label><input id="username" name="username" autocomplete="username" placeholder="josy ou seu e-mail" required>
 <label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="off" required>
-<button type="submit">Entrar</button><div id="loginError" class="login-error" role="alert"></div><div id="apiStatus" class="api-status" role="status">Verificando conexão...</div>
+<button type="submit">Entrar</button><button type="button" id="installApp" class="install-app" hidden>Instalar aplicativo</button><div id="loginError" class="login-error" role="alert"></div><div id="apiStatus" class="api-status" role="status">Verificando conexão...</div>
 </form>
 </section>
 <div class="app" hidden>
@@ -390,6 +394,8 @@ loginHoleFrame=requestAnimationFrame(drawLoginHole);
 document.getElementById('loginForm').addEventListener('submit',async event=>{event.preventDefault();const message=document.getElementById('loginError'),username=document.getElementById('username'),password=document.getElementById('password');message.textContent='';try{await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});stopLoginHole();username.value='';password.value='';await loadDashboardData()}catch(error){password.value='';message.textContent=error.status===429?'Acesso temporariamente bloqueado. Aguarde 15 minutos.':'Usuário/e-mail ou senha inválidos.'}});
 document.getElementById('logout').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST'})}finally{document.querySelector('.app').hidden=true;document.getElementById('loginScreen').hidden=false;document.getElementById('username').value='';document.getElementById('password').value=''}});
 fetch(`${API_URL}/api/status`,{credentials:'same-origin',cache:'no-store'}).then(response=>{if(!response.ok)throw new Error('offline');return response.json()}).then(data=>{const status=document.getElementById('apiStatus');status.dataset.state='ok';status.textContent=data.mensagem}).catch(()=>{const status=document.getElementById('apiStatus');status.dataset.state='error';status.textContent='Serviço temporariamente indisponível'});
+let deferredInstallPrompt=null;const installButton=document.getElementById('installApp');window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;installButton.hidden=false});installButton.addEventListener('click',async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;installButton.hidden=true});window.addEventListener('appinstalled',()=>{installButton.hidden=true});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}));
 </script>
 </body>
 </html>

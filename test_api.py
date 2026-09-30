@@ -161,6 +161,11 @@ def test_brand_logo_is_served():
     assert response.status_code==200
     assert response.mimetype=="image/svg+xml"
 
+def test_pwa_assets_are_public():
+    c=create_app().test_client()
+    assert c.get("/manifest.webmanifest").mimetype=="application/manifest+json"
+    assert c.get("/sw.js").mimetype=="application/javascript"
+
 def test_numeric_cpf_import_restores_leading_zeroes():
     assert normalize_cpf(123456789)=="00123456789"
 

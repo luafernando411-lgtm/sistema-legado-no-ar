@@ -98,6 +98,12 @@ def index():
 @bp.get("/brand/logo.svg")
 def brand_logo(): return send_file(Path(current_app.root_path) / "logo-josy.svg",mimetype="image/svg+xml")
 
+@bp.get("/manifest.webmanifest")
+def web_manifest(): return send_file(Path(current_app.root_path) / "manifest.webmanifest",mimetype="application/manifest+json")
+
+@bp.get("/sw.js")
+def service_worker(): return send_file(Path(current_app.root_path) / "sw.js",mimetype="application/javascript")
+
 @bp.get("/health")
 def health(): return jsonify(status="ok",service="censo-previdenciario",time=datetime.utcnow().isoformat())
 

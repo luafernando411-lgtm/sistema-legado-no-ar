@@ -96,6 +96,10 @@ O arquivo `render.yaml` cria um web service Python com Gunicorn, um PostgreSQL e
 
 O banco e os uploads persistem entre deploys. Para o disco persistente, selecione um plano compatível com disk; sem ele, arquivos enviados localmente no container podem ser perdidos durante um novo deploy.
 
+### Uso no celular e no computador
+
+Após o deploy com HTTPS, abra a URL da Render no navegador. No celular, escolha **Adicionar à tela inicial**; no computador, use o botão **Instalar aplicativo** exibido no login ou o ícone de instalação do navegador. Para compartilhar com outras pessoas, envie a URL da aplicação e forneça apenas os usuários e senhas por um canal seguro.
+
 ## APIs principais
 
 - `POST /api/auth/login`
