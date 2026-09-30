@@ -78,6 +78,8 @@ Abra `http://localhost:5000`.
 
 Defina `CENSO_LUIZ_PASSWORD` e `CENSO_JOSY_PASSWORD` no arquivo `.env` com senhas fortes antes da primeira inicialização. As senhas ficam somente no ambiente local, não no código-fonte.
 
+Opcionalmente, defina `CENSO_LUIZ_EMAIL` e `CENSO_JOSY_EMAIL` para permitir login pelos e-mails cadastrados. Sem essas variáveis, use os usuários `luizarrow3` e `josy`.
+
 `CENSO_COMPLETED_PERCENT=50` inicializa a base com metade dos registros concluídos, de forma determinística, para a apresentação. Altere esse valor quando a base operacional passar a refletir conclusões reais.
 
 O navegador exige login após cada atualização: a página inicial revoga a sessão anterior no servidor e os cookies são apagados. Em produção, sirva por HTTPS e mantenha `JWT_COOKIE_SECURE=true`.

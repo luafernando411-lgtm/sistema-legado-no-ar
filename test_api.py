@@ -40,6 +40,13 @@ def test_login():
     assert r.headers.getlist("Set-Cookie")
     assert r.get_json()=={"ok":True}
 
+def test_login_accepts_configured_email_alias(monkeypatch):
+    monkeypatch.setenv("CENSO_JOSY_EMAIL","josy@example.com")
+    app=create_app()
+    c=app.test_client()
+    response=c.post("/api/auth/login",json={"username":"josy@example.com","password":TEST_PASSWORD})
+    assert response.status_code==200
+
 def test_only_configured_users_can_login():
     app=create_app()
     c=app.test_client()

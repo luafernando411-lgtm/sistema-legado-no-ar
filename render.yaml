@@ -21,6 +21,10 @@ services:
         sync: false
       - key: CENSO_JOSY_PASSWORD
         sync: false
+      - key: CENSO_LUIZ_EMAIL
+        sync: false
+      - key: CENSO_JOSY_EMAIL
+        sync: false
       - key: UPLOAD_FOLDER
         value: /app/uploads
       - key: CENSO_COMPLETED_PERCENT

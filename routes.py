@@ -109,7 +109,12 @@ def api_status():
 
 @bp.post("/api/auth/login")
 def login():
-    b=body(); username=str(b.get("username") or "").strip().lower()
+    b=body(); login_value=str(b.get("username") or "").strip().lower()
+    email_aliases={
+        str(os.getenv("CENSO_LUIZ_EMAIL") or "").strip().lower():"luizarrow3",
+        str(os.getenv("CENSO_JOSY_EMAIL") or "").strip().lower():"josy",
+    }
+    username=email_aliases.get(login_value,login_value)
     if username not in {"luizarrow3", "josy"}:
         return jsonify(error="Credenciais inválidas"),401
     ip=request.remote_addr or "unknown"
