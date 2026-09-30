@@ -9,7 +9,7 @@ import secrets
 db = SQLAlchemy()
 jwt = JWTManager()
 
-def create_app():
+def create_app(initialize_db=True):
     app = Flask(__name__, template_folder="templates", static_folder="static")
     base = Path(app.root_path).parent
     app.config.from_mapping(
@@ -27,10 +27,14 @@ def create_app():
     from .routes import bp
     app.register_blueprint(bp)
 
-    with app.app_context():
-        from . import models  # noqa
-        db.create_all()
-        from .services.seed import ensure_admin_and_seed
-        ensure_admin_and_seed()
+    if initialize_db:
+        with app.app_context():
+            from . import models  # noqa
+            db.create_all()
+            from .seed import ensure_admin_and_seed
+            ensure_admin_and_seed(
+                os.getenv("CENSO_LUIZ_PASSWORD"),
+                os.getenv("CENSO_JOSY_PASSWORD"),
+            )
 
     return app
