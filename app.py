@@ -121,4 +121,6 @@ def create_app(initialize_db=True):
     return app
 
 
-app = create_app(initialize_db=False)
+app = create_app(
+    initialize_db=os.getenv("APP_ENV") == "production" or os.getenv("RENDER") == "true"
+)
