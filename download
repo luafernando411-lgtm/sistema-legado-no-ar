@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+instance/
+uploads/
+censo.db
+*.db-shm
+*.db-wal
+__pycache__/
+.pytest_cache/
