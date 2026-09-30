@@ -119,3 +119,6 @@ def create_app(initialize_db=True):
         initialize_database()
 
     return app
+
+
+app = create_app(initialize_db=False)

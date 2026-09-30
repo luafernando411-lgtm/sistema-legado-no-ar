@@ -84,17 +84,7 @@ Opcionalmente, defina `CENSO_LUIZ_EMAIL` e `CENSO_JOSY_EMAIL` para permitir logi
 
 O navegador exige login após cada atualização: a página inicial revoga a sessão anterior no servidor e os cookies são apagados. Em produção, sirva por HTTPS e mantenha `JWT_COOKIE_SECURE=true`.
 
-## Execução com persistência
-
-Para iniciar o backend e o PostgreSQL com volumes persistentes:
-
-```bash
-docker compose up --build -d
-```
-
-O Compose recusa iniciar se chaves e senhas não forem fornecidas no `.env`; não existem credenciais padrão no container.
-
-Acesse `http://localhost:5000`. O banco e os arquivos ficam nos volumes `censo_database` e `censo_uploads`. O Gunicorn atende múltiplas requisições e usa timeout estendido para uploads grandes; ajuste `WEB_CONCURRENCY` e `GUNICORN_THREADS` conforme os recursos do servidor.
+## Execução local
 
 Em execução local, `python run.py` usa SQLite e a pasta `uploads/`. O limite de 6 GiB é por arquivo; o espaço total depende da capacidade do disco/volume.
 
