@@ -113,6 +113,8 @@ def login():
     email_aliases={
         str(os.getenv("CENSO_LUIZ_EMAIL") or "").strip().lower():"luizarrow3",
         str(os.getenv("CENSO_JOSY_EMAIL") or "").strip().lower():"josy",
+        str(os.getenv("CENSO_LUIZ_USERNAME") or "").strip().lower():"luizarrow3",
+        str(os.getenv("CENSO_JOSY_USERNAME") or "").strip().lower():"josy",
     }
     username=email_aliases.get(login_value,login_value)
     if username not in {"luizarrow3", "josy"}:
