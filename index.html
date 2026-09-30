@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Josy Performe Premium — Censo Previdenciário</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--navy:#103f50;--navy2:#174d5e;--header:#2e454e;--paper:#eaf0ed;--card:#f7f9f8;--border:#bdcac6;--ink:#30474f;--muted:#6d7d82;--green:#4d9b90;--green2:#75b2a9;--blue:#3d6780;--orange:#bd8d56;--red:#a96a65;--grid:#dce4e1}
+*{box-sizing:border-box}body{margin:0;background:#dce5e2;color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:12px}.app{width:min(1500px,100vw);min-height:100vh;margin:auto;background:var(--paper);box-shadow:0 0 20px #0003}.topbar{height:43px;background:var(--header);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 9px}.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px}.brandmark{width:25px;height:25px;border:1px solid #ffffff30;border-radius:2px;display:grid;place-items:center}.tabs{display:flex;height:100%;gap:2px}.tab{border:0;background:transparent;color:#e8efee;padding:0 13px;font-size:10px;cursor:pointer}.tab.active{background:#e4ece9;color:#28434c;font-weight:700;box-shadow:inset 0 -2px #78aaa1}.shell{display:grid;grid-template-columns:72px 1fr;min-height:calc(100vh - 43px)}.sidebar{background:var(--navy);display:flex;flex-direction:column;align-items:center}.side{width:100%;height:57px;border:0;background:transparent;color:#b8cfd0;display:grid;place-items:center;position:relative;cursor:pointer;border-left:3px solid transparent}.side.active{background:var(--navy2);color:white;border-left-color:#86b9b0}.side span{display:none;position:absolute;left:78px;top:16px;background:#203f48;color:#fff;padding:5px 8px;border-radius:3px;white-space:nowrap;z-index:20;font-size:10px}.side:hover span{display:block}.main{padding:7px;background:#e6eeeb}.filters{background:#eef3f1;border:1px solid #c1cfca;padding:5px 6px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px}.fl{font-size:9px;font-weight:700;color:#53676e}select,input{height:25px;border:1px solid #adbbb7;border-radius:2px;background:white;color:#344b53;padding:0 6px;font-size:10px;min-width:110px}.head{display:flex;justify-content:space-between;align-items:center;padding:1px 2px 5px}.title{font-size:14px;font-weight:700}.sub{font-size:9px;color:var(--muted)}.badge{font-size:8px;background:#dceae7;color:#39756d;border-radius:2px;padding:3px 7px}.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:5px}.kpi{height:48px;background:#f8faf9;border:1px solid var(--border);border-radius:2px;text-align:center;display:flex;flex-direction:column;justify-content:center}.kpi b{font-size:14px}.kpi span{font-size:8px;color:var(--muted)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px}.card{background:var(--card);border:1px solid var(--border);border-radius:2px;overflow:hidden}.ct{height:24px;padding:5px 7px;border-bottom:1px solid #d4ddda;background:#f1f5f3;font-size:9px;font-weight:700;color:#3c535b}.cb{padding:4px 6px}.chart{height:185px;position:relative}.chart.sm{height:150px}.table{height:300px;overflow:auto}.table table{width:100%;border-collapse:collapse;font-size:8px}.table th,.table td{padding:4px;border-bottom:1px solid #dce3e0;white-space:nowrap}.table th{text-align:left;background:#eaf0ed;position:sticky;top:0;z-index:1}.num{text-align:right!important}.status{font-size:7px;border-radius:2px;padding:2px 5px;display:inline-block}.pending{background:#f1e5d4;color:#8b663d}.done{background:#dcece8;color:#39756d}.search{min-width:210px}.note{font-size:8px;color:#65767d;margin-top:5px}.metric-list{display:grid;gap:7px;padding:5px 2px}.metric-line{display:grid;grid-template-columns:180px 1fr 55px;align-items:center;gap:7px;font-size:8px}.progress{height:7px;background:#dce5e2;border-radius:4px;overflow:hidden}.progress i{display:block;height:100%;background:var(--green)}.empty{padding:25px;text-align:center;color:#6d7d82;font-size:10px}.toolbar{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:5px}.btn{height:25px;border:1px solid #aebcb8;background:#f6f8f7;border-radius:2px;font-size:9px;padding:0 8px;cursor:pointer}.btn:hover{background:#e5eeeb}@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:720px){.shell{grid-template-columns:1fr}.sidebar{display:none}.grid2,.kpis{grid-template-columns:1fr}.topbar{height:auto;flex-wrap:wrap}.tabs{width:100%;overflow:auto;height:32px}.main{padding:5px}}
+</style>
+<style>
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#dce5e2,#c8d7d3 55%,#e8edeb)}.login-panel{width:min(390px,100%);background:#f7f9f8;border:1px solid #bdcac6;padding:25px;box-shadow:0 14px 40px #203c4420}.login-panel h1{font-size:19px;margin:0 0 5px}.login-panel p{color:#6d7d82;margin:0 0 20px}.login-panel label{display:block;font-weight:700;margin:12px 0 5px}.login-panel input{width:100%;height:38px;font-size:14px}.login-panel button{width:100%;height:38px;margin-top:18px;background:#174d5e;color:#fff;border:0;font-weight:700;cursor:pointer}.login-error{color:#a3433d;min-height:18px;margin-top:10px}.logout{border:1px solid #ffffff55;background:transparent;color:#fff;height:28px;padding:0 10px;cursor:pointer}.files-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}.file-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.file-actions .btn{height:28px}.breadcrumbs{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0}.breadcrumbs button{border:0;background:transparent;color:#276a68;text-decoration:underline;cursor:pointer;padding:3px}.file-name{display:flex;align-items:center;gap:8px}.file-name button{border:0;background:transparent;color:#315f68;cursor:pointer;text-align:left}.file-meta{color:#6d7d82;white-space:nowrap}@media(max-width:760px){.topbar{height:auto;min-height:43px;flex-wrap:wrap;gap:5px}.tabs{order:3;width:100%;overflow-x:auto;height:34px}.tab{white-space:nowrap;padding:0 9px}.shell{grid-template-columns:48px 1fr;min-height:calc(100vh - 82px)}.main{padding:6px}.file-actions{width:100%}}
+</style>
+<style>
+.login-screen{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#f5f4ef,#e8e4d9 55%,#f7f6f2)}.login-screen::before{content:"";position:absolute;z-index:-1;inset:0;background:url('/brand/logo.svg') center 46%/min(82vw,700px) no-repeat;opacity:.11;pointer-events:none}.login-hole{position:absolute;z-index:0;inset:0;width:100%;height:100%;pointer-events:none;opacity:.8}.login-panel{position:relative;z-index:1;border-color:#c6a45a}.login-logo{display:block;width:210px;height:190px;object-fit:contain;margin:-12px auto 4px}.login-panel button{background:#17120c;color:#f1cc6b}.login-panel button:hover{background:#382610}.sidebar{overflow-y:auto}.ibge-note{border-left:3px solid #b98a37;background:#f7f4e9;padding:9px 11px;margin:8px 0;color:#594726}
+.api-status{display:flex;justify-content:center;align-items:center;gap:7px;min-height:20px;margin-top:8px;color:#60706a;font-size:11px}.api-status::before{content:"";width:8px;height:8px;border-radius:50%;background:#a9a69e}.api-status[data-state="ok"]::before{background:#4d9b70}.api-status[data-state="error"]::before{background:#b34c43}
+</style>
+</head>
+<body>
+<section id="loginScreen" class="login-screen">
+<canvas id="loginHoleCanvas" class="login-hole" aria-hidden="true"></canvas>
+<form id="loginForm" class="login-panel">
+<img class="login-logo" src="/brand/logo.svg" alt="Josy Performe Premium">
+<h1>Censo Previdenciário</h1><p>Acesso seguro ao sistema</p>
+<label for="username">Usuário</label><input id="username" name="username" autocomplete="off" required>
+<label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="off" required>
+<button type="submit">Entrar</button><div id="loginError" class="login-error" role="alert"></div><div id="apiStatus" class="api-status" role="status">Verificando conexão...</div>
+</form>
+</section>
+<div class="app" hidden>
+<header class="topbar">
+<div class="brand"><div class="brandmark">JP</div><span id="brand">Josy Performe · Censo Previdenciário</span></div>
+<nav class="tabs">
+<button class="tab active" data-page="overview">Overview</button>
+<button class="tab" data-page="cadastro">Cadastro</button>
+<button class="tab" data-page="segurados">Segurados</button>
+<button class="tab" data-page="beneficios">Benefícios</button>
+<button class="tab" data-page="contribuicoes">Contribuições</button>
+<button class="tab" data-page="pendencias">Pendências</button>
+<button class="tab" data-page="relatorios">Relatórios</button>
+<button class="tab" data-page="ibge">Busca IBGE</button>
+<button class="tab" data-page="arquivos">Arquivos</button>
+</nav>
+<button class="logout" id="logout" title="Encerrar sessão">Sair</button>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<button class="side active" data-page="overview">▦<span>Visão geral</span></button>
+<button class="side" data-page="cadastro">♙<span>Base do censo</span></button>
+<button class="side" data-page="segurados">♟<span>Segurados</span></button>
+<button class="side" data-page="beneficios">▤<span>Benefícios</span></button>
+<button class="side" data-page="contribuicoes">⌁<span>Contribuições</span></button>
+<button class="side" data-page="pendencias">!<span>Pendências do censo</span></button>
+<button class="side" data-page="relatorios">▤<span>Relatórios agregados</span></button>
+<button class="side" data-page="ibge">⌕<span>Busca IBGE</span></button>
+<button class="side" data-page="arquivos">▣<span>Arquivos</span></button>
+</aside>
+<main class="main">
+<div id="filters" class="filters"></div>
+<div id="content"></div>
+</main>
+</div>
+</div>
+
+<script>
+let DATA=null;
+const API_URL='';
+async function api(path, options={}) {
+  const headers=new Headers(options.headers||{});
+  const csrf=document.cookie.match(/(?:^|;\s*)csrf_access_token=([^;]+)/)?.[1];
+  if(csrf)headers.set('X-CSRF-TOKEN',decodeURIComponent(csrf));
+  const r=await fetch(`${API_URL}${path}`,{...options,headers,credentials:'same-origin',cache:'no-store'});
+  if(!r.ok){let detail='';try{detail=(await r.json()).error||''}catch{}throw new Error(detail||`HTTP ${r.status}`)}
+  return r.json();
+}
+async function loadDashboardData(){
+  DATA=await api('/api/dashboard');
+  document.querySelector('.app').hidden=false;
+  document.getElementById('loginScreen').hidden=true;
+  render();
+}
+
+const C={green:'#4d9b90',green2:'#75b2a9',blue:'#3d6780',orange:'#bd8d56',red:'#a96a65',grid:'#dce4e1'};
+let page='overview',charts={},currentFolder=null;
+
+const fmt=n=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0}).format(n);
+const money=n=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n);
+const pct=(a,b)=>b?((a/b)*100).toFixed(1).replace('.',',')+'%':'0,0%';
+const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const dateLabel=value=>value?value.slice(0,10).split('-').reverse().join('/'):'—';
+const sizeLabel=value=>value<1024**2?`${(value/1024).toFixed(1)} KB`:`${(value/1024**3).toFixed(value<1024**3?2:1)} GB`;
+function kpi(v,l){return `<div class="kpi"><b>${v}</b><span>${l}</span></div>`}
+function card(t,b){return `<section class="card"><div class="ct">${t}</div><div class="cb">${b}</div></section>`}
+const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#29444d',titleFont:{size:9},bodyFont:{size:9},padding:7}},scales:{x:{grid:{display:false},ticks:{font:{size:8},color:'#65767d',maxRotation:0}},y:{grid:{color:C.grid},ticks:{font:{size:8},color:'#65767d'},beginAtZero:true}}};
+function chart(id,type,data,extra={}){const e=document.getElementById(id);if(!e)return;charts[id]=new Chart(e,{type,data,options:{...opts,...extra}})}
+function bar(vals,color=C.green){return {data:vals,backgroundColor:color,borderWidth:0,borderRadius:1,maxBarThickness:22}}
+function destroy(){Object.values(charts).forEach(x=>x.destroy());charts={}}
+
+async function renderFiles(){
+ const content=document.getElementById('content');
+ content.innerHTML='<div class="empty">Carregando arquivos...</div>';
+ try{
+  const query=currentFolder===null?'':'?pasta_id='+currentFolder;
+  const data=await api('/api/arquivos'+query);
+  const crumbs=[{id:null,nome:'Arquivos'},...data.caminho];
+  content.innerHTML=`<div class="head"><div><div class="title">Arquivos e pastas</div><div class="sub">Crie pastas e insira dados com armazenamento privado · até 6 GB por arquivo</div></div></div>
+   <div class="files-head"><div class="breadcrumbs">${crumbs.map((x,i)=>`<button data-crumb="${x.id??''}">${esc(x.nome)}</button>${i<crumbs.length-1?'<span>/</span>':''}`).join('')}</div>
+   <div class="file-actions"><button class="btn" id="newFolder">Criar pasta</button><form id="uploadForm" class="file-actions"><label class="fl" for="fileInput">Inserir dados:</label><input id="fileInput" type="file" required><button class="btn" type="submit">Enviar arquivo</button></form></div></div>
+   <div id="fileMessage" class="sub" role="status"></div><div class="card"><div class="cb"><div class="table"><table><thead><tr><th>Nome</th><th>Tamanho</th><th>Modificado</th><th>Ações</th></tr></thead><tbody>
+  ${data.pastas.map(x=>`<tr><td><button class="file-name" data-open-folder="${x.id}">[Pasta] ${esc(x.nome)}</button></td><td class="file-meta">—</td><td class="file-meta">—</td><td><button class="btn" data-delete-folder="${x.id}">Excluir</button></td></tr>`).join('')}
+  ${data.arquivos.map(x=>`<tr><td class="file-name">[Arquivo] ${esc(x.nome)}</td><td class="file-meta">${sizeLabel(x.tamanho)}</td><td class="file-meta">${dateLabel(x.criado_em)}</td><td><button class="btn" data-download-file="${x.id}">Baixar</button> <button class="btn" data-delete-file="${x.id}">Excluir</button></td></tr>`).join('')}
+   ${!data.pastas.length&&!data.arquivos.length?'<tr><td colspan="4">Esta pasta está vazia.</td></tr>':''}</tbody></table></div></div></div>`;
+  document.querySelectorAll('[data-crumb]').forEach(button=>button.onclick=()=>{currentFolder=button.dataset.crumb?Number(button.dataset.crumb):null;renderFiles()});
+  document.querySelectorAll('[data-open-folder]').forEach(button=>button.onclick=()=>{currentFolder=Number(button.dataset.openFolder);renderFiles()});
+  document.getElementById('newFolder').onclick=async()=>{const nome=prompt('Nome da pasta');if(!nome)return;try{await api('/api/arquivos/pastas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome,pasta_pai_id:currentFolder})});renderFiles()}catch(error){document.getElementById('fileMessage').textContent=error.message}};
+  document.getElementById('uploadForm').onsubmit=async event=>{event.preventDefault();const input=document.getElementById('fileInput');if(!input.files.length)return;const form=new FormData();form.append('arquivo',input.files[0]);if(currentFolder!==null)form.append('pasta_id',currentFolder);const message=document.getElementById('fileMessage');message.textContent='Enviando arquivo...';try{await api('/api/arquivos/upload',{method:'POST',body:form});renderFiles()}catch(error){message.textContent=error.message}};
+  document.querySelectorAll('[data-download-file]').forEach(button=>button.onclick=()=>{window.location.assign(`/api/arquivos/${button.dataset.downloadFile}/download`)});
+  document.querySelectorAll('[data-delete-file]').forEach(button=>button.onclick=async()=>{if(confirm('Excluir este arquivo?')){await api(`/api/arquivos/${button.dataset.deleteFile}`,{method:'DELETE'});renderFiles()}});
+  document.querySelectorAll('[data-delete-folder]').forEach(button=>button.onclick=async()=>{if(confirm('Excluir esta pasta vazia?')){try{await api(`/api/arquivos/pastas/${button.dataset.deleteFolder}`,{method:'DELETE'});renderFiles()}catch(error){document.getElementById('fileMessage').textContent=error.message}}});
+ }catch(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`}
+}
+
+async function renderPendencias(search=''){
+ const content=document.getElementById('content');
+ content.innerHTML='<div class="empty">Carregando pendências...</div>';
+ try{
+  const data=await api('/api/pendencias?q='+encodeURIComponent(search));
+  content.innerHTML=`<div class="head"><div><div class="title">Pendências do censo funcional</div><div class="sub">${fmt(data.total)} registros importados da planilha de Olho d'Água</div></div></div>
+   <form id="pendingSearch" class="filters"><label class="fl" for="pendingQuery">Buscar servidor, matrícula ou pendência:</label><input id="pendingQuery" value="${esc(search)}"><button class="btn" type="submit">Buscar</button></form>
+   <div class="table"><table><thead><tr><th>Servidor</th><th>Matrícula</th><th>Tipo funcional</th><th>Pendência</th><th>Observação</th><th>Município</th><th>Vínculo</th></tr></thead><tbody>
+   ${data.items.map(x=>`<tr><td>${esc(x.servidor)}</td><td>${esc(x.matricula)}</td><td>${esc(x.tipo_funcional)}</td><td>${esc(x.pendencia)}</td><td>${esc(x.observacao||'—')}</td><td>${esc(x.municipio)} / ${esc(x.uf)}</td><td><span class="status ${x.recenseado_id?'done':'pending'}">${x.recenseado_id?'Vinculado':'Revisar'}</span></td></tr>`).join('')||'<tr><td colspan="7">Nenhuma pendência encontrada.</td></tr>'}
+   </tbody></table></div>`;
+  document.getElementById('pendingSearch').onsubmit=event=>{event.preventDefault();renderPendencias(document.getElementById('pendingQuery').value.trim())};
+ }catch(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`}
+}
+
+async function renderReports(){
+ const content=document.getElementById('content');
+ content.innerHTML='<div class="empty">Calculando conformidade cadastral...</div>';
+ try{
+  const data=await api('/api/relatorios/conformidade');
+  const total=Number(data.total||0);
+  const missing=data.campo_ausente||{};
+  const status=data.por_status||{};
+  const pending=data.pendencias||{};
+  const pendingTotal=Object.values(pending).reduce((sum,value)=>sum+Number(value||0),0);
+  const records=Array.isArray(DATA?.records)?DATA.records:[];
+  const duplicateGroups=field=>Object.values(records.reduce((groups,item)=>{const value=item[field];if(value&&value!=='—')groups[value]=(groups[value]||0)+1;return groups},{})).filter(value=>value>1).length;
+  const cargoGroups=records.reduce((groups,item)=>{const value=item.cargo||'Não informado';groups[value]=(groups[value]||0)+1;return groups},{});
+  const topCargo=Object.entries(cargoGroups).sort((a,b)=>b[1]-a[1])[0];
+  const legacyAnalysis={
+   conclusao_percentual:total?Number(((status['Concluído']||0)/total*100).toFixed(1)):0,
+   cobertura_cpf_percentual:total?Number(((total-(missing.cpf||0))/total*100).toFixed(1)):0,
+   cobertura_localidade_percentual:total?Number(((total-(missing.municipio_uf||0))/total*100).toFixed(1)):0,
+   pendencias_vinculadas_percentual:null,
+   pendencias_para_revisao:null,
+  duplicidades_cpf:records.length?duplicateGroups('cpf'):null,
+  duplicidades_matricula:records.length?duplicateGroups('matricula'):null,
+  principal_cargo:topCargo?{nome:topCargo[0],quantidade:topCargo[1]}:{nome:'—',quantidade:null},
+  cadastros_por_data:DATA?.cadastro_counts||{},
+  };
+  const analysis={...legacyAnalysis,...(data.analises||{})};
+  const rows=(values,label)=>Object.entries(values).map(([key,value])=>`<tr><td>${esc(key)}</td><td class="num">${fmt(value)}</td></tr>`).join('')||`<tr><td colspan="2">Sem dados</td></tr>`;
+  const metric=value=>value===null||value===undefined?'—':`${value}%`;
+  const count=value=>value===null||value===undefined?'—':fmt(value);
+  content.innerHTML=`<div class="head"><div><div class="title">Relatório agregado de conformidade</div><div class="sub">Estatísticas sem nomes, matrículas ou documentos pessoais</div></div><button class="btn" id="downloadExecutivePdf">Gerar PDF executivo</button></div>
+  <div class="kpis">${kpi(fmt(total),'Registros funcionais')}${kpi(metric(analysis.conclusao_percentual),'Conclusão cadastral')}${kpi(metric(analysis.cobertura_localidade_percentual),'Cobertura de localidade')}${kpi(metric(analysis.pendencias_vinculadas_percentual),'Pendências vinculadas')}</div>
+   <div class="grid2">
+   ${card('Síntese das análises',`<div class="table"><table><tbody>
+    <tr><td>CPF preenchido</td><td class="num">${metric(analysis.cobertura_cpf_percentual)}</td></tr>
+    <tr><td>Pendências para revisão</td><td class="num">${count(analysis.pendencias_para_revisao)}</td></tr>
+    <tr><td>Grupos com CPF duplicado</td><td class="num">${count(analysis.duplicidades_cpf)}</td></tr>
+    <tr><td>Grupos com matrícula duplicada</td><td class="num">${count(analysis.duplicidades_matricula)}</td></tr>
+    <tr><td>Principal cargo</td><td class="num">${esc(analysis.principal_cargo?.nome||'—')} (${count(analysis.principal_cargo?.quantidade)})</td></tr>
+   </tbody></table></div>`)}
+   ${card('Evolução dos cadastros',`<div class="table"><table><thead><tr><th>Data</th><th class="num">Quantidade</th></tr></thead><tbody>${rows(analysis.cadastros_por_data||{})}</tbody></table></div>`)}
+    ${card('Registros por status',`<div class="table"><table><thead><tr><th>Status</th><th class="num">Quantidade</th></tr></thead><tbody>${rows(data.por_status)}</tbody></table></div>`)}
+    ${card('Tipo funcional',`<div class="table"><table><thead><tr><th>Categoria</th><th class="num">Quantidade</th></tr></thead><tbody>${rows(data.por_tipo_funcional)}</tbody></table></div>`)}
+    ${card('Distribuição por sexo',`<div class="table"><table><thead><tr><th>Categoria</th><th class="num">Quantidade</th></tr></thead><tbody>${rows(data.por_sexo)}</tbody></table></div>`)}
+    ${card('Campos ausentes',`<div class="table"><table><thead><tr><th>Campo</th><th class="num">Registros</th></tr></thead><tbody>${rows(data.campo_ausente)}</tbody></table></div>`)}
+    ${card('Pendências importadas',`<div class="table"><table><thead><tr><th>Status</th><th class="num">Quantidade</th></tr></thead><tbody>${rows(data.pendencias)}</tbody></table></div>`)}
+   </div>`;
+  document.getElementById('downloadExecutivePdf').onclick=async()=>{
+   const button=document.getElementById('downloadExecutivePdf');
+   button.disabled=true;button.textContent='Gerando PDF...';
+   try{
+    const response=await fetch('/api/relatorios/executivo.pdf',{credentials:'same-origin',cache:'no-store'});
+    if(!response.ok)throw new Error('Não foi possível gerar o PDF');
+    const blob=await response.blob();const url=URL.createObjectURL(blob);const link=document.createElement('a');
+    link.href=url;link.download='relatorio-executivo-conformidade.pdf';link.click();URL.revokeObjectURL(url);
+   }catch(error){alert(error.message)}finally{button.disabled=false;button.textContent='Gerar PDF executivo'}
+  };
+ }catch(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`}
+}
+
+async function renderIbge(search="Olho d'Água"){
+ const content=document.getElementById('content');
+ content.innerHTML='<div class="empty">Consultando municípios no IBGE...</div>';
+ try{
+  const data=await api('/api/ibge/municipios?q='+encodeURIComponent(search));
+  content.innerHTML=`<div class="head"><div><div class="title">Consulta territorial do censo funcional</div><div class="sub">Municípios e códigos oficiais fornecidos pelo IBGE</div></div></div>
+   <form id="ibgeSearch" class="filters"><label class="fl" for="ibgeQuery">Município:</label><input id="ibgeQuery" minlength="2" value="${esc(search)}" placeholder="Ex.: Olho d'Água"><button class="btn" type="submit">Buscar</button></form>
+   <div class="ibge-note">O IBGE fornece a referência territorial, não cadastros previdenciários individuais. Os quantitativos abaixo são cruzados localmente por município e UF; nomes e CPFs não são enviados ao IBGE.</div>
+   <div class="kpis">${kpi(fmt(data.total_base),'Registros funcionais na base')}${kpi(fmt(data.sem_localidade),'Sem município/UF cadastrado')}</div>
+   <div class="table"><table><thead><tr><th>Município</th><th>Código IBGE</th><th>UF</th><th>Região</th><th>Servidores vinculados</th><th>Distribuição funcional</th><th></th></tr></thead><tbody>
+   ${data.municipios.map(x=>`<tr><td>${esc(x.nome)}</td><td>${esc(x.codigo)}</td><td>${esc(x.uf)}</td><td>${esc(x.regiao)}</td><td>${fmt(x.servidores)}</td><td>${Object.entries(x.por_tipo).map(([tipo,total])=>`${esc(tipo)}: ${fmt(total)}`).join(' · ')||'—'}</td><td><button class="btn" data-open-locality="${esc(x.nome)}" data-locality-uf="${esc(x.uf)}">Ver cadastros</button></td></tr>`).join('')||'<tr><td colspan="7">Nenhum município encontrado.</td></tr>'}
+   </tbody></table></div>`;
+  document.getElementById('ibgeSearch').onsubmit=event=>{event.preventDefault();renderIbge(document.getElementById('ibgeQuery').value.trim())};
+  document.querySelectorAll('[data-open-locality]').forEach(button=>button.onclick=()=>{
+   page='cadastro';
+   document.querySelectorAll('.tab,.side').forEach(item=>item.classList.toggle('active',item.dataset.page===page));
+   render();
+   const input=document.getElementById('search');
+   input.value=`${button.dataset.openLocality} ${button.dataset.localityUf}`;
+   renderCadastroTable();
+  });
+ }catch(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`}
+}
+
+function filters(){
+ let html='';
+ if(page==='cadastro'){
+  html=`<span class="fl">Cargo:</span><select id="cargo"><option value="">Todos</option>${Object.keys(DATA.cargo_counts).sort().map(x=>`<option>${esc(x)}</option>`).join('')}</select>
+   <span class="fl">Situação:</span><select id="status"><option value="">Todas</option><option>Concluído</option><option>Cadastro sem conclusão</option></select>
+   <span class="fl">Busca:</span><input id="search" class="search" placeholder="Nome, matrícula ou CPF mascarado">
+   <button class="btn" id="clear">Limpar</button>`;
+ } else {
+   html=`<span class="fl">Período:</span><select><option>Março/2026 — Agosto/2026</option></select>
+   <span class="fl">Regime:</span><select><option>IPSS</option><option>Todos</option></select>
+   <span class="fl">Fonte:</span><select><option>Dados fornecidos</option></select>`;
+ }
+ document.getElementById('filters').innerHTML=html;
+ if(page==='cadastro'){
+   ['cargo','status','search'].forEach(id=>document.getElementById(id).addEventListener('input',renderCadastroTable));
+   document.getElementById('clear').onclick=()=>{document.getElementById('cargo').value='';document.getElementById('status').value='';document.getElementById('search').value='';renderCadastroTable()};
+ }
+}
+
+function overview(){
+ const c=DATA.censo,p=DATA.payroll;
+ return `<div class="head"><div><div class="title">Censo Previdenciário — Gestão e Diagnóstico</div><div class="sub">Dados consolidados dos arquivos fornecidos · cadastro de ${c.data_inicial} a ${c.data_final}</div></div><span class="badge">DADOS REAIS</span></div>
+ <div class="kpis">
+ ${kpi(fmt(c.registros),'Registros no relatório de recenseamento')}
+ ${kpi(fmt(c.concluidos),'Cadastros com Data de Conclusão')}
+ ${kpi(fmt(c.sem_conclusao),'Cadastros sem conclusão')}
+ ${kpi(fmt(p.ativos.quantidade),'Ativos na relação do RPPS')}
+ ${kpi(fmt(p.beneficiarios),'Beneficiários na folha analítica')}
+ ${kpi(pct(c.registros,p.ativos.quantidade+p.beneficiarios),'Cobertura quantitativa vs. folha')}
+ </div>
+ <div class="grid2">
+ ${card('Situação do Recenseamento',`<div class="chart"><canvas id="o1"></canvas></div>`)}
+ ${card('Distribuição da Base Previdenciária',`<div class="chart"><canvas id="o2"></canvas></div>`)}
+ ${card('Cadastros por Data de Registro',`<div class="chart"><canvas id="o3"></canvas></div>`)}
+ ${card('Top 10 Cargos no Relatório de Recenseamento',`<div class="chart"><canvas id="o4"></canvas></div>`)}
+ ${card('Folha — Ativos x Benefícios',`<div class="metric-list">
+ <div class="metric-line"><span>Ativos — relação do RPPS</span><div class="progress"><i style="width:${pct(p.ativos.quantidade,p.ativos.quantidade+p.beneficiarios)}"></i></div><strong>${fmt(p.ativos.quantidade)}</strong></div>
+ <div class="metric-line"><span>Aposentados idade/tempo</span><div class="progress"><i style="width:${pct(36,p.beneficiarios)}"></i></div><strong>36</strong></div>
+ <div class="metric-line"><span>Aposentados por invalidez</span><div class="progress"><i style="width:${pct(4,p.beneficiarios)}"></i></div><strong>4</strong></div>
+ <div class="metric-line"><span>Pensionistas por morte</span><div class="progress"><i style="width:${pct(4,p.beneficiarios)}"></i></div><strong>4</strong></div>
+ <div class="metric-line"><span>Aposentadoria por idade</span><div class="progress"><i style="width:${pct(8,p.beneficiarios)}"></i></div><strong>8</strong></div>
+ </div>`)}
+ ${card('Valores da Folha de Março/2026',`<div class="table"><table><thead><tr><th>Grupo</th><th class="num">Qtd.</th><th class="num">Vencimentos</th><th class="num">Descontos</th><th class="num">Líquido</th></tr></thead><tbody>
+ <tr><td>Ativos</td><td class="num">76</td><td class="num">${money(p.ativos.proventos)}</td><td class="num">${money(p.ativos.descontos)}</td><td class="num">${money(p.ativos.proventos-p.ativos.descontos)}</td></tr>
+ ${p.beneficios.map(x=>`<tr><td>${x.tipo}</td><td class="num">${x.quantidade}</td><td class="num">${money(x.vencimentos)}</td><td class="num">${money(x.descontos)}</td><td class="num">${money(x.liquido)}</td></tr>`).join('')}
+ </tbody></table></div>`)}
+ </div>
+ <div class="note">Observação: a cobertura acima é apenas uma comparação quantitativa entre 126 registros do relatório de recenseamento e 128 pessoas identificadas nos relatórios de folha. Ela não substitui um cruzamento individual por matrícula/CPF.</div>`;
+}
+
+function cadastro(){
+ return `<div class="head"><div><div class="title">Base do Censo Previdenciário</div><div class="sub">126 registros reais do arquivo de recenseamento; CPF exibido de forma mascarada</div></div><span class="badge">126 REGISTROS</span></div>
+ <div class="kpis">${kpi(fmt(DATA.censo.registros),'Registros')}${kpi(fmt(DATA.censo.concluidos),'Concluídos')}${kpi(fmt(DATA.censo.sem_conclusao),'Sem Data de Conclusão')}${kpi(fmt(DATA.censo.entidades),'Entidade(s)')}${kpi(DATA.censo.data_inicial,'Primeiro cadastro')}${kpi(DATA.censo.data_final,'Último cadastro')}</div>
+ <div class="card"><div class="ct">Registros do Relatório de Recenseamento</div><div class="cb"><div id="cadTable"></div></div></div>`;
+}
+function renderCadastroTable(){
+ const cargo=document.getElementById('cargo')?.value||'', status=document.getElementById('status')?.value||'', q=(document.getElementById('search')?.value||'').toLowerCase();
+ let rows=DATA.records.filter(r=>(!cargo||r.cargo===cargo)&&(!status||(status==='Concluído'?Boolean(r.data_conclusao):!r.data_conclusao))&&(!q||`${r.nome} ${r.matricula} ${r.cpf} ${r.cidade} ${r.uf}`.toLowerCase().includes(q)));
+ document.getElementById('cadTable').innerHTML=`<div class="toolbar"><span class="sub">${fmt(rows.length)} registro(s) exibido(s)</span></div>
+ <div class="table" style="height:560px"><table><thead><tr><th>Nome</th><th>Matrícula</th><th>CPF</th><th>Cargo</th><th>Entidade</th><th>Data Cadastro</th><th>Conclusão</th><th>Último Acesso</th><th>Status</th></tr></thead><tbody>
+ ${rows.map(r=>{const status=r.data_conclusao?'Concluído':'Cadastro sem conclusão';return `<tr><td>${esc(r.nome)}</td><td>${esc(r.matricula)}</td><td>${esc(r.cpf)}</td><td>${esc(r.cargo)}</td><td>${esc(r.entidade)}</td><td>${dateLabel(r.data_cadastro)}</td><td>${dateLabel(r.data_conclusao)}</td><td>${dateLabel(r.ultimo_acesso)}</td><td><span class="status ${r.data_conclusao?'done':'pending'}">${status}</span></td></tr>`}).join('')}
+ </tbody></table></div>`;
+}
+function segurados(){
+ const p=DATA.payroll;
+ return `<div class="head"><div><div class="title">Segurados e Base do RPPS</div><div class="sub">Consolidação dos registros de recenseamento e da relação de funcionários do RPPS</div></div><span class="badge">IPSS · MAR/2026</span></div>
+ <div class="kpis">${kpi('76','Funcionários ativos')}${kpi('52','Aposentados/Pensionistas')}${kpi('128','Pessoas na folha')}${kpi('126','Registros de recenseamento')}${kpi('98,4%','Cobertura quantitativa')}${kpi('1','Entidade no recenseamento')}</div>
+ <div class="grid2">
+ ${card('Beneficiários por Tipo',`<div class="chart"><canvas id="s1"></canvas></div>`)}
+ ${card('Principais Cargos no Recenseamento',`<div class="chart"><canvas id="s2"></canvas></div>`)}
+ ${card('Folha por Grupo Previdenciário',`<div class="chart"><canvas id="s3"></canvas></div>`)}
+ ${card('Contribuição Patronal — Funcionários Ativos',`<div class="metric-list">
+ <div class="metric-line"><span>Valor patronal</span><div class="progress"><i style="width:100%"></i></div><strong>${money(p.ativos.patronal)}</strong></div>
+ <div class="metric-line"><span>Base de contribuição</span><div class="progress"><i style="width:100%"></i></div><strong>${money(p.ativos.base)}</strong></div>
+ <div class="metric-line"><span>Descontos</span><div class="progress"><i style="width:${(p.ativos.descontos/p.ativos.proventos*100).toFixed(1)}%"></i></div><strong>${money(p.ativos.descontos)}</strong></div>
+ </div>`)}
+ </div>`;
+}
+function beneficios(){
+ const p=DATA.payroll;
+ return `<div class="head"><div><div class="title">Benefícios Previdenciários</div><div class="sub">Totais por unidade extraídos da Folha de Pagamento Analítica — Março/2026</div></div><span class="badge">52 BENEFICIÁRIOS</span></div>
+ <div class="kpis">${kpi('52','Beneficiários')}${kpi(money(p.total_vencimentos_beneficios),'Vencimentos')}${kpi(money(p.total_descontos_beneficios),'Descontos')}${kpi(money(p.total_liquido_beneficios),'Líquido')}${kpi('4','Unidades previdenciárias')}${kpi('Mar/2026','Competência')}</div>
+ <div class="grid2">
+ ${card('Beneficiários por Tipo',`<div class="chart"><canvas id="b1"></canvas></div>`)}
+ ${card('Vencimentos por Tipo de Benefício',`<div class="chart"><canvas id="b2"></canvas></div>`)}
+ ${card('Detalhamento da Folha Previdenciária',`<div class="table"><table><thead><tr><th>Tipo</th><th class="num">Qtd.</th><th class="num">Vencimentos</th><th class="num">Descontos</th><th class="num">Líquido</th></tr></thead><tbody>${p.beneficios.map(x=>`<tr><td>${x.tipo}</td><td class="num">${x.quantidade}</td><td class="num">${money(x.vencimentos)}</td><td class="num">${money(x.descontos)}</td><td class="num">${money(x.liquido)}</td></tr>`).join('')}</tbody></table></div>`)}
+ ${card('Participação dos Benefícios',`<div class="chart"><canvas id="b3"></canvas></div>`)}
+ </div>`;
+}
+function contribuicoes(){
+ const p=DATA.payroll.ativos;
+ return `<div class="head"><div><div class="title">Contribuições e Base Previdenciária</div><div class="sub">Relação de Funcionários do RPPS — Março/2026</div></div><span class="badge">76 ATIVOS</span></div>
+ <div class="kpis">${kpi('76','Funcionários')}${kpi(money(p.proventos),'Proventos')}${kpi(money(p.base),'Valor base')}${kpi(money(p.descontos),'Descontos')}${kpi(money(p.patronal),'Contribuição patronal')}${kpi(money(p.proventos-p.descontos),'Líquido estimado')}</div>
+ <div class="grid2">
+ ${card('Proventos x Base x Descontos',`<div class="chart"><canvas id="c1"></canvas></div>`)}
+ ${card('Indicadores da Folha Ativa',`<div class="metric-list">
+ <div class="metric-line"><span>Base / Proventos</span><div class="progress"><i style="width:${(p.base/p.proventos*100).toFixed(1)}%"></i></div><strong>${pct(p.base,p.proventos)}</strong></div>
+ <div class="metric-line"><span>Descontos / Proventos</span><div class="progress"><i style="width:${(p.descontos/p.proventos*100).toFixed(1)}%"></i></div><strong>${pct(p.descontos,p.proventos)}</strong></div>
+ <div class="metric-line"><span>Patronal / Base</span><div class="progress"><i style="width:${(p.patronal/p.base*100).toFixed(1)}%"></i></div><strong>${pct(p.patronal,p.base)}</strong></div>
+ </div>`)}
+ </div>
+ <div class="note">Os valores acima são os totais informados na Relação de Funcionários do RPPS, competência Março/2026.</div>`;
+}
+function draw(){
+ if(page==='overview'){
+  chart('o1','doughnut',{labels:['Sem conclusão','Concluídos'],datasets:[{data:[DATA.censo.sem_conclusao,DATA.censo.concluidos],backgroundColor:[C.orange,C.green],borderColor:'#f7f9f8',borderWidth:2}]},{cutout:'58%'});
+  chart('o2','bar',{labels:['Ativos','Apos. idade/tempo','Apos. invalidez','Pensionistas','Apos. idade'],datasets:[bar([76,36,4,4,8],C.blue)]});
+  chart('o3','bar',{labels:Object.keys(DATA.cadastro_counts),datasets:[bar(Object.values(DATA.cadastro_counts),C.green)]});
+  const labs=Object.keys(DATA.cargo_counts).reverse(), vals=Object.values(DATA.cargo_counts).reverse();
+  chart('o4','bar',{labels:labs,datasets:[bar(vals,C.green2)]},{indexAxis:'y'});
+ }
+ if(page==='segurados'){
+  chart('s1','doughnut',{labels:['Apos. idade/tempo','Apos. invalidez','Pensionistas','Apos. idade'],datasets:[{data:[36,4,4,8],backgroundColor:[C.blue,C.orange,C.red,C.green],borderColor:'#f7f9f8',borderWidth:2}]},{cutout:'58%'});
+  const labs=Object.keys(DATA.cargo_counts).slice(0,8).reverse(),vals=Object.values(DATA.cargo_counts).slice(0,8).reverse();
+  chart('s2','bar',{labels:labs,datasets:[bar(vals,C.green)]},{indexAxis:'y'});
+  chart('s3','bar',{labels:['Ativos','Idade/tempo','Invalidez','Pensão','Idade'],datasets:[bar([76,36,4,4,8],C.blue)]});
+ }
+ if(page==='beneficios'){
+  const p=DATA.payroll;
+  chart('b1','bar',{labels:p.beneficios.map(x=>x.tipo.replace('Aposentados ','Apos. ').replace('Aposentadoria ','Apos. ')),datasets:[bar(p.beneficios.map(x=>x.quantidade),C.green)]},{indexAxis:'y'});
+  chart('b2','bar',{labels:p.beneficios.map(x=>x.tipo.replace('Aposentados ','Apos. ').replace('Aposentadoria ','Apos. ')),datasets:[bar(p.beneficios.map(x=>x.vencimentos),C.blue)]},{indexAxis:'y',scales:{x:{grid:{color:C.grid},ticks:{font:{size:8},callback:v=>'R$ '+(v/1000).toFixed(0)+' mil'}},y:{grid:{display:false},ticks:{font:{size:8}}}}});
+  chart('b3','doughnut',{labels:p.beneficios.map(x=>x.tipo),datasets:[{data:p.beneficios.map(x=>x.quantidade),backgroundColor:[C.blue,C.orange,C.red,C.green],borderColor:'#f7f9f8',borderWidth:2}]},{cutout:'58%'});
+ }
+ if(page==='contribuicoes'){
+  const p=DATA.payroll.ativos;
+  chart('c1','bar',{labels:['Proventos','Valor Base','Descontos','Patronal'],datasets:[bar([p.proventos,p.base,p.descontos,p.patronal],C.blue)]},{scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{grid:{color:C.grid},ticks:{font:{size:8},callback:v=>'R$ '+(v/1000).toFixed(0)+' mil'}}}});
+ }
+}
+function render(){
+ destroy();
+ document.getElementById('brand').textContent=page==='overview'?'Josy Performe · Censo Previdenciário':page==='cadastro'?'Base do Censo Previdenciário':page==='segurados'?'Segurados e Base do RPPS':page==='beneficios'?'Benefícios Previdenciários':page==='arquivos'?'Arquivos e pastas':page==='pendencias'?'Pendências funcionais':page==='relatorios'?'Relatórios agregados':page==='ibge'?'Consulta territorial IBGE':'Contribuições e Base Previdenciária';
+ if(page==='arquivos'||page==='pendencias'||page==='relatorios'||page==='ibge'){
+  document.getElementById('filters').hidden=true;
+  if(page==='arquivos')renderFiles();
+  if(page==='pendencias')renderPendencias();
+  if(page==='relatorios')renderReports();
+  if(page==='ibge')renderIbge();
+  return;
+ }
+ document.getElementById('filters').hidden=false;
+ document.getElementById('content').innerHTML=page==='overview'?overview():page==='cadastro'?cadastro():page==='segurados'?segurados():page==='beneficios'?beneficios():contribuicoes();
+ filters();
+ requestAnimationFrame(()=>{draw();if(page==='cadastro')renderCadastroTable()});
+}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;document.querySelectorAll('.tab,.side').forEach(x=>x.classList.toggle('active',x.dataset.page===page));render()}));
+let loginHoleFrame=0,loginHoleOffset=0,loginHolePulse=0,loginHoleHover=0,loginHoleLast=performance.now();
+function drawLoginHole(now){
+ const canvas=document.getElementById('loginHoleCanvas');if(!canvas||document.getElementById('loginScreen').hidden)return;
+ const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),width=Math.max(1,Math.round(rect.width*dpr)),height=Math.max(1,Math.round(rect.height*dpr));
+ if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height}
+ const ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);
+ const dt=Math.min((now-loginHoleLast)/1000,.05);loginHoleLast=now;loginHoleOffset=(loginHoleOffset+dt*(90+loginHoleHover*70))%70;loginHolePulse*=Math.exp(-dt*4);
+ const cx=rect.width/2,cy=rect.height/2+loginHoleHover*8,max=Math.max(rect.width,rect.height)*1.25;
+ ctx.globalCompositeOperation='lighter';
+ for(let ring=0;ring<18;ring++){
+  const depth=(ring*70+loginHoleOffset)%1260+40,scale=260/depth,size=Math.max(12,Math.min(max,scale*max*.72+30+loginHolePulse*45));
+  const x=cx-size/2,y=cy-size/2,alpha=Math.max(.08,1-depth/1260)*.42;
+  ctx.strokeStyle=ring%3===0?`rgba(189,141,86,${alpha})`:`rgba(54,121,126,${alpha*.8})`;ctx.lineWidth=Math.max(1,scale*2.2);
+  ctx.strokeRect(x,y,size,size);
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(cx-size*.18,cy-size*.18);ctx.moveTo(x+size,y);ctx.lineTo(cx+size*.18,cy-size*.18);ctx.moveTo(x,y+size);ctx.lineTo(cx-size*.18,cy+size*.18);ctx.moveTo(x+size,y+size);ctx.lineTo(cx+size*.18,cy+size*.18);ctx.stroke();
+ }
+ ctx.globalCompositeOperation='source-over';loginHoleFrame=requestAnimationFrame(drawLoginHole);
+}
+function stopLoginHole(){if(loginHoleFrame)cancelAnimationFrame(loginHoleFrame);loginHoleFrame=0}
+const loginScreen=document.getElementById('loginScreen');
+loginScreen.addEventListener('pointerenter',()=>{loginHoleHover=1});loginScreen.addEventListener('pointerleave',()=>{loginHoleHover=0});loginScreen.addEventListener('pointerdown',()=>{loginHolePulse=1});
+window.addEventListener('resize',()=>{loginHoleLast=performance.now()});
+loginHoleFrame=requestAnimationFrame(drawLoginHole);
+document.getElementById('loginForm').addEventListener('submit',async event=>{event.preventDefault();const message=document.getElementById('loginError'),username=document.getElementById('username'),password=document.getElementById('password');message.textContent='';try{await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});stopLoginHole();username.value='';password.value='';await loadDashboardData()}catch(error){password.value='';message.textContent='Usuário ou senha inválidos.'}});
+document.getElementById('logout').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST'})}finally{document.querySelector('.app').hidden=true;document.getElementById('loginScreen').hidden=false;document.getElementById('username').value='';document.getElementById('password').value=''}});
+fetch(`${API_URL}/api/status`,{credentials:'same-origin',cache:'no-store'}).then(response=>{if(!response.ok)throw new Error('offline');return response.json()}).then(data=>{const status=document.getElementById('apiStatus');status.dataset.state='ok';status.textContent=data.mensagem}).catch(()=>{const status=document.getElementById('apiStatus');status.dataset.state='error';status.textContent='Serviço temporariamente indisponível'});
+</script>
+</body>
+</html>

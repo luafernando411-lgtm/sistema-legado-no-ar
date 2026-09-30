@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: censo-previdenciario
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: JWT_COOKIE_SECURE
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: censo-previdenciario-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: CENSO_LUIZ_PASSWORD
+        sync: false
+      - key: CENSO_JOSY_PASSWORD
+        sync: false
+      - key: UPLOAD_FOLDER
+        value: /app/uploads
+      - key: CENSO_COMPLETED_PERCENT
+        value: "50"
+    disk:
+      name: censo-previdenciario-uploads
+      mountPath: /app/uploads
+      sizeGB: 10
+
+databases:
+  - name: censo-previdenciario-db
+    databaseName: censo
+    user: censo

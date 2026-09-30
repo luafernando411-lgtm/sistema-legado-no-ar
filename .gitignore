@@ -1,0 +1,26 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local application state and uploaded documents
+instance/
+uploads/
+censo.db
+*.sqlite
+*.sqlite3
+
+# Source documents and exports may contain personal data
+*.pdf
+*.xlsx
+*.xsl
+censo_previdenciario_dados_reais.html
+download*
+__init__ (1).py
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
