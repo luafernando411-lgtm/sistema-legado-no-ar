@@ -72,7 +72,7 @@ async function api(path, options={}) {
   const csrf=document.cookie.match(/(?:^|;\s*)csrf_access_token=([^;]+)/)?.[1];
   if(csrf)headers.set('X-CSRF-TOKEN',decodeURIComponent(csrf));
   const r=await fetch(`${API_URL}${path}`,{...options,headers,credentials:'same-origin',cache:'no-store'});
-  if(!r.ok){let detail='';try{detail=(await r.json()).error||''}catch{}throw new Error(detail||`HTTP ${r.status}`)}
+  if(!r.ok){let detail='';try{detail=(await r.json()).error||''}catch{}const error=new Error(detail||`HTTP ${r.status}`);error.status=r.status;throw error}
   return r.json();
 }
 async function loadDashboardData(){
@@ -387,7 +387,7 @@ const loginScreen=document.getElementById('loginScreen');
 loginScreen.addEventListener('pointerenter',()=>{loginHoleHover=1});loginScreen.addEventListener('pointerleave',()=>{loginHoleHover=0});loginScreen.addEventListener('pointerdown',()=>{loginHolePulse=1});
 window.addEventListener('resize',()=>{loginHoleLast=performance.now()});
 loginHoleFrame=requestAnimationFrame(drawLoginHole);
-document.getElementById('loginForm').addEventListener('submit',async event=>{event.preventDefault();const message=document.getElementById('loginError'),username=document.getElementById('username'),password=document.getElementById('password');message.textContent='';try{await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});stopLoginHole();username.value='';password.value='';await loadDashboardData()}catch(error){password.value='';message.textContent='Usuário ou senha inválidos.'}});
+document.getElementById('loginForm').addEventListener('submit',async event=>{event.preventDefault();const message=document.getElementById('loginError'),username=document.getElementById('username'),password=document.getElementById('password');message.textContent='';try{await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});stopLoginHole();username.value='';password.value='';await loadDashboardData()}catch(error){password.value='';message.textContent=error.status===429?'Acesso temporariamente bloqueado. Aguarde 15 minutos.':'Usuário/e-mail ou senha inválidos.'}});
 document.getElementById('logout').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST'})}finally{document.querySelector('.app').hidden=true;document.getElementById('loginScreen').hidden=false;document.getElementById('username').value='';document.getElementById('password').value=''}});
 fetch(`${API_URL}/api/status`,{credentials:'same-origin',cache:'no-store'}).then(response=>{if(!response.ok)throw new Error('offline');return response.json()}).then(data=>{const status=document.getElementById('apiStatus');status.dataset.state='ok';status.textContent=data.mensagem}).catch(()=>{const status=document.getElementById('apiStatus');status.dataset.state='error';status.textContent='Serviço temporariamente indisponível'});
 </script>
